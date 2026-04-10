@@ -3,17 +3,15 @@ defmodule SmsSchool.Accounts.Adress do
     otp_app: :sms_school,
     extensions: [AshGraphql.Domain]
 
-  graphql(
-    queries: [
-      list: [
-        SmsSchool.Accounts.Adress.Provie,
-        SmsSchool.Accounts.Adress.District,
-        SmsSchool.Accounts.Adress.Commune,
-        SmsSchool.Accounts.Adress.Village
-      ]
-    ]
-  )
+  graphql do
+    queries do
+      list SmsSchool.Accounts.Adress.Provie, :get_provies, :full
+      list SmsSchool.Accounts.Adress.District, :get_districts, :read
+      list SmsSchool.Accounts.Adress.Commune, :get_communes, :read
+      list SmsSchool.Accounts.Adress.Village, :get_villages, :read
+    end
 
+  end
   resources do
     resource SmsSchool.Accounts.Adress.Provie
     resource SmsSchool.Accounts.Adress.District

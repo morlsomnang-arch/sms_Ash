@@ -72,13 +72,16 @@ defmodule SmsSchool.Accounts.Adress.Provie do
   end
 
   attributes do
-    uuid_primary_key :id
+    uuid_primary_key :id do
+      public? true
+    end
     attribute :name, :string, public?: true
     timestamps()
   end
 
   relationships do
     has_many :districts, SmsSchool.Accounts.Adress.District do
+      public? true
     end
   end
 

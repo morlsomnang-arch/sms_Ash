@@ -8,8 +8,9 @@ defmodule SmsSchool.Accounts.Students do
     authorizers: [Ash.Policy.Authorizer],
     extensions: [AshGraphql.Resource]
 
+  # ក្នុង SmsSchool.Accounts.Students
   graphql do
-    type :students
+    type :student
   end
 
   postgres do
@@ -62,12 +63,8 @@ defmodule SmsSchool.Accounts.Students do
 
     create :create do
       primary? true
-      argument :student_addresses, type: {:array, :map}, public?: true
-
-      change manage_relationship(:student_addresses, arg(:student_addresses),
-               type: :direct_control
-             )
-
+      argument :student_addresses, {:array, :map}, public?: true
+      change manage_relationship(:student_addresses, type: :direct_control)
       accept [:id_card_number, :first_name, :last_name, :gender, :dob, :phone, :image]
     end
   end
@@ -82,7 +79,7 @@ defmodule SmsSchool.Accounts.Students do
     end
 
     policy action(:create) do
-      authorize_if actor_attribute_equals(:role, :admin)
+      authorize_if always()
     end
 
     policy action(:update) do
@@ -139,6 +136,7 @@ defmodule SmsSchool.Accounts.Students do
   relationships do
     has_many :student_addresses, SmsSchool.Accounts.Adress.StudentAddress do
       destination_attribute :student_id
+      public? true
     end
   end
 

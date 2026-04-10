@@ -3,7 +3,8 @@ defmodule SmsSchoolWeb.GraphqlSchema do
 
   use AshGraphql,
     domains: [
-      SmsSchool.Accounts
+      SmsSchool.Accounts,
+      SmsSchool.Accounts.Adress
     ]
 
   import_types Absinthe.Plug.Types

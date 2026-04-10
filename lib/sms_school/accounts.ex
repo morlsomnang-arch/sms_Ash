@@ -1,9 +1,9 @@
-defmodule SmsSchool.Accounts do use Ash.Domain, otp_app: :sms_school, extensions: [AshGraphql.Domain]
+defmodule SmsSchool.Accounts do
+  use Ash.Domain, otp_app: :sms_school, extensions: [AshGraphql.Domain]
 
   graphql do
     queries do
       list SmsSchool.Accounts.User, :get_user_all, :read
-      # below are just examples, you can define your own queries and mutations as needed
 
       list SmsSchool.Accounts.Class, :search_classes, :search
       list SmsSchool.Accounts.Class, :get_class, :read
@@ -12,6 +12,8 @@ defmodule SmsSchool.Accounts do use Ash.Domain, otp_app: :sms_school, extensions
     end
 
     mutations do
+      create SmsSchool.Accounts.Students, :create_students, :create
+      create SmsSchool.Accounts.User, :register_user, :register_with_password
       create SmsSchool.Accounts.User, :register_with_password, action: :register_with_password
       create SmsSchool.Accounts.Class, :create_class, :create
       destroy SmsSchool.Accounts.Class, :delete_class_type, :destroy

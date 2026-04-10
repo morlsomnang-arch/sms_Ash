@@ -41,6 +41,7 @@ defmodule SmsSchool.Accounts.Adress.District do
 
     destroy :destroy do
       primary? true
+      change manage_relationship(:communes, arg(:communes), type: :direct_control)
     end
   end
 
@@ -55,18 +56,20 @@ defmodule SmsSchool.Accounts.Adress.District do
   end
 
   attributes do
-    uuid_primary_key :id
+    uuid_primary_key :id, public?: true
     attribute :name, :string, public?: true
-    timestamps()
+    timestamps(public?: true)
   end
 
   relationships do
     belongs_to :provie, SmsSchool.Accounts.Adress.Provie do
       allow_nil? false
+      public? true
     end
 
     has_many :communes, SmsSchool.Accounts.Adress.Commune do
       destination_attribute :district_id
+      public? true
     end
   end
 end
