@@ -4,7 +4,7 @@ defmodule SmsSchool.LabTessStudent do
   alias SmsSchool.Accounts.Students
   alias SmsSchool.Accounts.Employee
 
-  def seed_students(count \\ 100000) do
+  def seed_students(count \\ 100) do
     1..count
     |> Stream.map(fn i ->
       %{
@@ -23,6 +23,7 @@ defmodule SmsSchool.LabTessStudent do
     end)
   end
 
+  @spec search_employees() :: {:ok, any()}
   def search_employees(search_term \\ "son", limit \\ 10) do
     {micro, results} =
       :timer.tc(fn ->

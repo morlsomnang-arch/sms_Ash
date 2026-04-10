@@ -23,8 +23,7 @@ defmodule SmsSchool.Accounts.Adress.StudentAddress do
     create :create do
       accept [:student_id, :village_id]
       primary? true
-      change manage_relationship(:student, arg(:student_id), type: :direct_control)
-      change manage_relationship(:village, arg(:village_id), type: :direct_control)
+
     end
 
     update :update do
