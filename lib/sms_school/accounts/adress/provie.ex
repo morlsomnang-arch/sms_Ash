@@ -6,6 +6,10 @@ defmodule SmsSchool.Accounts.Adress.Provie do
     authorizers: [Ash.Policy.Authorizer],
     extensions: [AshGraphql.Resource]
 
+  graphql do
+    type :provie
+  end
+
   postgres do
     table "provies"
     repo SmsSchool.Repo
@@ -14,10 +18,6 @@ defmodule SmsSchool.Accounts.Adress.Provie do
       index "name gin_trgm_ops",
         name: "provies_name_gin_index",
         using: "GIN"
-    end
-
-    graphql do
-      type :provie
     end
   end
 
@@ -35,8 +35,25 @@ defmodule SmsSchool.Accounts.Adress.Provie do
       change manage_relationship(:districts, arg(:districts), type: :direct_control)
     end
 
-    read :read do
+    read :full do
       primary? true
+
+      pagination do
+        offset? true
+        default_limit 500
+        max_page_size 500
+        countable true
+      end
+
+      prepare build(
+                load: [
+                  districts: [
+                    communes: [
+                      villages: []
+                    ]
+                  ]
+                ]
+              )
     end
 
     destroy :destroy do
@@ -49,7 +66,7 @@ defmodule SmsSchool.Accounts.Adress.Provie do
       authorize_if always()
     end
 
-    policy action_type(:read) do
+    policy action_type([:read, :create, :update, :destroy]) do
       authorize_if always()
     end
   end
@@ -63,5 +80,9 @@ defmodule SmsSchool.Accounts.Adress.Provie do
   relationships do
     has_many :districts, SmsSchool.Accounts.Adress.District do
     end
+  end
+
+  calculations do
+    calculate :count_of_provies, :integer, expr(count())
   end
 end

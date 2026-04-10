@@ -113,15 +113,15 @@ defmodule SmsSchool.Tessing.Production do
     IO.puts(" បានបញ្ចូលទិន្នន័យកម្ពុជា (ខេត្ត ស្រុក ឃុំ ភូមិ) រួចរាល់!")
   end
 
-  def get_addresses do
-    {micro, result} =
-      :timer.tc(fn ->
-        SmsSchool.Accounts.Adress.StudentAddress
-        |> Ash.Query.load([:student, :village])
-        |> Ash.read!()
-      end)
+  def get_provies do
+    SmsSchool.Accounts.Adress.Provie
+    |> Ash.Query.new()
+    |> Ash.read()
+  end
 
-    IO.puts("Time: #{micro / 1000} ms")
-    result
+  def getStudent do
+    SmsSchool.Accounts.Students
+    |> Ash.Query.new()
+    |> Ash.read()
   end
 end

@@ -44,11 +44,31 @@ defmodule SmsSchool.Accounts.Students do
         max_page_size 500
         countable true
       end
+
+      prepare build(
+                load: [
+                  student_addresses: [
+                    village: [
+                      commune: [
+                        district: [
+                          :provie
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              )
     end
 
     create :create do
       primary? true
-      accept [:first_name, :last_name, :id_card_number, :gender, :dob, :phone, :image]
+      argument :student_addresses, type: {:array, :map}, public?: true
+
+      change manage_relationship(:student_addresses, arg(:student_addresses),
+               type: :direct_control
+             )
+
+      accept [:id_card_number, :first_name, :last_name, :gender, :dob, :phone, :image]
     end
   end
 

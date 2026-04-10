@@ -138,7 +138,7 @@ defmodule SmsSchool.Lab do
     IO.puts("input___#{num_classes} Classes & #{Enum.count(class_types_data)} ClassTypes រួចរាល់!")
   end
 
-  def test_e(search_term \\ "Son", limit \\ 10) do
+  def test_e(search_term \\ "សំណាង", limit \\ 10) do
     {micro, results} =
       :timer.tc(fn ->
         SmsSchool.Accounts.Class
@@ -152,7 +152,7 @@ defmodule SmsSchool.Lab do
     {:ok, results}
   end
 
-  def search_student(search_term \\ "the", limit \\ 1000) do
+  def search_student(search_term \\ "សំណាង​​​​​", limit \\ 1000) do
     {micro, results} =
       :timer.tc(fn ->
         SmsSchool.Accounts.Students
@@ -166,4 +166,35 @@ defmodule SmsSchool.Lab do
     IO.puts(" Count: #{micro / 1000} ms")
     {:ok, results}
   end
+
+  def student do
+    import Ash.Query
+
+    SmsSchool.Accounts.Students
+    |> new()
+    |> load(student_addresses: [village: [commune: [district: [:provie]]]])
+    |> Ash.read!()
+  end
+
+  def village do
+    import Ash.Query
+
+    SmsSchool.Accounts.Adress.Village
+    |> new()
+    |> load(commune: [district: [:provie]])
+    |> Ash.read!()
+  end
+
+  def insertStudentAddress do
+    SmsSchool.Accounts.Adress.StudentAddress
+    |> Ash.Changeset.for_create(:create, %{
+      student_id: "e82506d2-c89b-4c79-9a8c-b6bcec636385",
+      village_id: "aaff2ff0-3bfc-4dee-a56f-8f1378dde8bb"
+    })
+    |> Ash.create!(actor: %{role: :admin})
+  end
 end
+
+# id: "e82506d2-c89b-4c79-9a8c-b6bcec636385",
+# village_id: "d1c8e5b9-9c3a-4f0e-8b2a-1a2b3c4d5e6f",
+# id: "aaff2ff0-3bfc-4dee-a56f-8f1378dde8bb",

@@ -104,8 +104,8 @@
   "create_table_options": null,
   "custom_indexes": [],
   "custom_statements": [],
-  "has_create_action": false,
-  "hash": "33BCEBDEABFF154D5CEF40F71D36178852C930E55B9AD32002B7A1459C711F63",
+  "has_create_action": true,
+  "hash": "E6A81358817F16987C7C271BCFA00862D59D94AF1CBA168636B83917D69A382F",
   "identities": [],
   "multitenancy": {
     "attribute": null,

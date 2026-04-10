@@ -8,11 +8,6 @@ defmodule SmsSchool.Accounts.Adress.StudentAddress do
     table "student_addresses"
     repo SmsSchool.Repo
 
-    custom_indexes do
-      index "student_id", name: "student_addresses_student_id_index"
-      index "village_id", name: "student_addresses_village_id_index"
-    end
-
     references do
       reference :student, index?: true, on_delete: :delete
       reference :village, index?: true, on_delete: :delete
@@ -23,7 +18,8 @@ defmodule SmsSchool.Accounts.Adress.StudentAddress do
     create :create do
       accept [:student_id, :village_id]
       primary? true
-
+      change manage_relationship(:student, arg(:student_id), type: :direct_control)
+      change manage_relationship(:village, arg(:village_id), type: :direct_control)
     end
 
     update :update do
@@ -33,6 +29,18 @@ defmodule SmsSchool.Accounts.Adress.StudentAddress do
 
     read :read do
       primary? true
+
+      prepare fn query, _context ->
+        IO.inspect(self(), label: " Request Process PID (Runtime)")
+        query
+      end
+
+      pagination do
+        offset? true
+        default_limit 500
+        max_page_size 500
+        countable true
+      end
     end
 
     destroy :destroy do

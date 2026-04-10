@@ -1,4 +1,4 @@
-defmodule SmsSchool.Repo.Migrations.CreateTable_Student_Adress do
+defmodule SmsSchool.Repo.Migrations.CreateStudentAddresses do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 
